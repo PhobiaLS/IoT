@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+    <title>Esplora</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="esplora.css">
+<link rel="stylesheet" type="text/css" href="slider/css/slider.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="slider/js/bootstrap-slider.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.3.6.js"></script>
+<script src="esplora.js"></script>
+<script> $('.slider').slider() </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header clearfix" style="margin-top:20px">
+        <nav>
+          <ul class="nav nav-pills pull-right" style="font-size: 16pt">
+            <li role="presentation" class="active"><a href="esplora.html">Home</a></li>
+            <li role="presentation"><a href="esploraAbout.html">About</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted" style="font-size: 25pt;margin-top:5px">ESPLORA</h3>
+      </div>
+      <hr>
+      <div class="row">
+          <div class="col-md-6">
+                <div class="row headerStyle" >
+                    <p id="rgbHeader"><span style="font-size:22pt;color: black">Movement control</p>
+                </div>
+                <div id="divOutside" style="border-top:2px solid #ddddcc;border-left:1px solid #ddddcc;border-right:1px solid #ddddcc;height:200px;position:relative;background-color: #f0f0e8;">
+                    <div id="divInside" style="width:4%;height:10%;background-color: #609fff;position:absolute;top:45%;left:42%;"></div>
+                    <div id="divInsideJoystick" style="width:5%;height:13%;background-color: indianred;position:absolute;top:43%;left:52%;border-radius: 20px"></div>
+                </div>
+                
+          </div>
+          <div class="col-md-6" style="overflow: hidden">
+                <div class="row headerStyle" >
+                    <p id="rgbHeader"><span style="font-size:22pt"><span style="color:red">R</span><span style="color:greenyellow">G</span><span style="color:dodgerblue">B</span></span> led control</p>
+                </div>
+                <div style="margin-bottom:40px;overflow: hidden">
+                    <div id="RGB" style="background-color: rgb(0,0,0);height:20px;margin:auto;width:70%;border: 1px solid lightgray;border-radius: 5px;margin-bottom:20px"></div> 
+                    <div style="overflow: hidden;display:block;margin-bottom:20px">
+                        <span style="display:block;float:left;font-size: 14pt">Red:</span>
+                        <div class="range range-red" style="width:75%;float:left;margin-top:0px;margin-left:47px">  
+                            <input type="range" id="rangeRed" name="range" min="0" max="255" value="0" onchange="range.value=value; sendRGB();">
+                            <output id="range">0</output>
+                        </div>
+                    </div>
+                    <div style="overflow: hidden;display:block;margin-bottom:20px">
+                        <span style="display:block;float:left;font-size: 14pt">Green:</span>
+                        <div class="range range-success" style="width:75%;float:left;margin-top:0px;margin-left:30px">  
+                            <input type="range" id="rangeGreen" name="range" min="0" max="255" value="0" onchange="rangeOGreen.value=value; sendRGB();">
+                            <output id="rangeOGreen">0</output>
+                        </div>
+                    </div>
+                    <div style="overflow: hidden;display:block;margin-bottom:20px">
+                        <span style="display:block;float:left;font-size: 14pt">Blue:</span>
+                        <div class="range range-primary" style="width:75%;float:left;margin-top:0px;margin-left:45px">  
+                            <input type="range" id="rangeBlue" name="range" min="0" max="255" value="0" onchange="rangeOBlue.value=value; sendRGB();">
+                            <output id="rangeOBlue">0</output>
+                        </div>
+                    </div>
+                    <div style="overflow: hidden;float:left;width:50%">
+                        <span style="display:block;float:left;font-size: 14pt">Pause:</span>
+                        <div class="range range-warning" style="width:50%;float:left;margin-top:0px;margin-left:29px">  
+                            <input type="range" id="rangePause" name="range" min="500" max="5000" value="0" onchange="rangeOPause.value=value; sendRGB()">
+                            <output id="rangeOPause">0</output>
+                        </div>
+                    </div>
+                    <div style="overflow: hidden;float:left;width:50%">
+                        <span style="display:block;float:left;font-size: 14pt">Signal:</span>
+                        <div class="range range-warning" style="width:50%;float:left;margin-top:0px;margin-left:29px">  
+                            <input type="range" id="rangeSignal" name="range" min="500" max="5000" value="0" onchange="rangeOSignal.value=value; sendRGB();">
+                            <output id="rangeOSignal">0</output>
+                        </div>
+                    </div>
+                </div>
+                <div class="row headerStyle" >
+                    <p id="rgbHeader"><span style="font-size:22pt;color: black">Piezo control</p>
+                </div>
+                <div style="margin-bottom:40px;height:180px;" id="kbd">
+                    <div id="keys">
+                        <div id="keyC" value="C" onclick="sendKey(this)" class="note white">C</div>
+                        <div id="keyC#" value="C#" onclick="sendKey(this)" class="note black">C#</div>
+                        <div id="keyD" value="D" onclick="sendKey(this)" class="note white">D</div>
+                        <div id="keyD#" value="D#" onclick="sendKey(this)" class="note black">D#</div>
+                        <div id="keyE" value="E" onclick="sendKey(this)" class="note white">E</div>
+                        <div id="keyF" value="F" onclick="sendKey(this)" class="note white">F</div>
+                        <div id="keyF#" value="F#" onclick="sendKey(this)" class="note black">F#</div>
+                        <div id="keyG" value="G" onclick="sendKey(this)" class="note white">G</div>
+                        <div id="keyG#" value="G#" onclick="sendKey(this)" class="note black">G#</div>
+                        <div id="keyA" value="A" onclick="sendKey(this)" class="note white">A</div>
+                        <div id="keyA#" value="A#" onclick="sendKey(this)" class="note black">A#</div>
+                        <div id="keyB" value="B" onclick="sendKey(this)" class="note white">B</div>
+                        <div id="keyC1" value="C1" onclick="sendKey(this)" class="note white">C</div>
+                    </div>
+                </div>
+          </div>
+      </div>
+    </div>
+  </body>
+  <script>
+        var socket = io.connect("127.0.0.1:3000/");
+
+        function sendKey(key){
+            socket.emit("sendEsplora",{"PiezoPlay":$(key).attr("value")});
+        }
+
+        //ovo mi je za button dok se ne uradi
+        $(document).keyup(function(e) {
+        switch(e.which) {
+            case 37: // left
+            moveInsideLeft();
+            break;
+
+            case 38: // up
+            moveInsideUp();
+            break;
+
+            case 39: // right
+            moveInsideRight();
+            break;
+
+            case 40: // down
+            moveInsideDown();
+            break;
+
+            default: return; // exit this handler for other keys
+        }
+        e.preventDefault();
+    });
+
+    socket.on('results', function(data)
+    {
+        if(data.hasOwnPropery('joystickX')) joystickMove(data.joystickX,data.joystickY,data.button);
+    });
+
+  </script>
+</html>

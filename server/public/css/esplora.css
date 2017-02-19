@@ -1,0 +1,92 @@
+body{
+    padding-bottom:40px;
+}
+
+.titleStyle{
+    font-size: 22pt;
+    text-align: center;
+    margin:auto;
+    color:black;
+}
+
+.headerStyle{
+    border: 1px solid black;
+    box-shadow: 2px 2px 2px #888888;
+    width:300px;
+    margin:auto;
+    padding:5px;
+    margin-bottom:40px;
+}
+
+#temp{
+    background: #e0ffc7 url("../images/weather.gif") no-repeat center center;
+    height: 250px;
+}
+
+#ligth{
+    background-color: yellow;
+}
+
+.genStyle{
+    width:33%;
+    height: 10%;
+    border-top:2px solid #ddddcc;
+    border-left:1px solid #ddddcc;
+    border-right:1px solid #ddddcc;
+    background-color: #f0f0e8;
+    text-align: center;
+    color:burlywood;
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+#RGB{
+    background-color: rgb(0,0,0);
+    height:20px;
+    margin:auto;
+    width:70%;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-bottom:20px;
+}
+
+.innerRGB{
+    overflow: hidden;
+    display:block;
+    margin-bottom:20px;
+}
+
+.rgbSpan{
+    display:block;
+    float:left;
+    font-size: 14pt;
+}
+
+#divOutside{
+    margin-bottom:20px;
+    border-top:2px solid #ddddcc;
+    border-left:1px solid #ddddcc;
+    border-right:1px solid #ddddcc;
+    height:200px;
+    position:relative;
+    background-color: #f0f0e8;
+}
+
+#divInside{
+    width:4%;
+    height:10%;
+    background-color: #609fff;
+    position:absolute;
+    top:45%;
+    left:42%;
+}
+
+#divInsideJoystick{
+    width:5%;
+    height:13%;
+    background-color: indianred;
+    position:absolute;
+    top:43%;
+    left:52%;
+    border-radius: 20px;
+}
